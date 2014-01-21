@@ -27,10 +27,30 @@ c.define('GITHUB_REPO',
          'Specify the GitHub repo you want to report on',
          'GitHub')
 
+c.define('GITHUB_ORGANISATION',
+        None,
+        'Specify the GitHub organisation containing your team',
+        'GitHub')
+
+c.define('GITHUB_TEAM_ID',
+        None,
+        'Specify the GitHub team ID from which you wish to list users',
+        'GitHub')
+
 c.define('GITHUB_OAUTH_TOKEN',
          None,
          'OAuth token for accessing your repo. See https://help.github.com/articles/creating-an-oauth-token-for-command-line-use',
          'GitHub')
+
+c.define('GITHUB_IGNORE_LOGINS',
+        [ ],
+        'Logins to ignore',
+        'GitHub')
+
+c.define('GITHUB_PULL_COUNT',
+        1000,
+        'Number of pull requests to fetch from GitHub',
+        'GitHub')
 
 # JIRA options
 
@@ -53,6 +73,11 @@ c.define('JIRA_PROJECT',
          None,
          'JIRA project key',
          'JIRA')
+
+c.define('JIRA_FILTER_ID',
+        None,
+        'JIRA filter ID',
+        'JIRA')
 
 # Reporting options
 

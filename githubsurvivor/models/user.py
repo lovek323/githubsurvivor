@@ -26,8 +26,17 @@ class User(Document):
         return self.issues().filter(state='open')
 
     def closed_issues(self):
-        return self.issues().filter(state='closed')
-
-    def issues(self):
         from githubsurvivor.models import Issue
-        return Issue.objects(assignee=self)
+        return Issue.objects(assignee=self).filter(state='closed')
+
+    def commented_issues(self):
+        from githubsurvivor.models import Issue
+        return Issue.objects(commenters__contains=self).filter(state='closed')
+
+    def reviewed_issues(self):
+        from githubsurvivor.models import Issue
+        return Issue.objects(reviewers__contains=self).filter(state='closed')
+
+    def merged_issues(self):
+        from githubsurvivor.models import Issue
+        return Issue.objects(merger=self).filter(state='closed')

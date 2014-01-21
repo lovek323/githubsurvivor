@@ -36,7 +36,11 @@ class Issue(Document):
     key = StringField(required=True)
     title = StringField(required=True)
     state = StringField(required=True) # {open, closed}
-    assignee = ReferenceField(User, dbref=False)
     opened = DateTimeField(required=True)
     closed = DateTimeField()
     url = StringField()
+
+    assignee = ReferenceField(User, dbref=False)
+    commenters = ListField(ReferenceField(User, dbref=False))
+    reviewers = ListField(ReferenceField(User, dbref=False))
+    merger = ReferenceField(User, dbref=False)

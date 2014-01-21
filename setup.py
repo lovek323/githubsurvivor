@@ -32,7 +32,8 @@ setup(
                       'PyGithub==1.16.0',
                       'iso8601==0.1.4',
                       'jira-python==0.13',
-                      'derpconf==0.4.8'],
+                      'derpconf==0.4.8',
+                      'jsonpickle==0.6.1'],
 
     entry_points={
         'console_scripts': [

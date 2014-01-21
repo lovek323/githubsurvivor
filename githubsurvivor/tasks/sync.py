@@ -14,12 +14,12 @@ def sync(types, verbose=False):
 
     if 'users' in types:
         if verbose: print 'Synchronising users...'
-        User.drop_collection()
+        # User.drop_collection()
         importer.import_users(verbose)
 
     if 'issues' in types:
         if verbose: print 'Synchronising issues...'
-        Issue.drop_collection()
+        # Issue.drop_collection()
         importer.import_issues(verbose)
 
 def main():

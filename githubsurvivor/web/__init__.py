@@ -50,10 +50,19 @@ def dashboard():
     # Randomise order of developers with equal bug counts
     # FIXME: show developers as tied in template
     shuffle(developers)
-    num_closed = lambda u: len(u.closed_issues().closed_in(current_period.start,
-                                                           current_period.end))
+    score = lambda u: \
+            len(u.closed_issues().closed_in(current_period.start, current_period.end)) * 10 + \
+            len(u.merged_issues().closed_in(current_period.start, current_period.end)) * 5 + \
+            len(u.reviewed_issues().closed_in(current_period.start, current_period.end)) * 5 + \
+            len(u.commented_issues().closed_in(current_period.start, current_period.end))
+    score_reason = lambda u: \
+            'had '+str(len(u.closed_issues().closed_in(current_period.start, current_period.end)))+' merged, '+\
+            'merged '+str(len(u.merged_issues().closed_in(current_period.start, current_period.end)))+', '+\
+            'reviewed '+str(len(u.reviewed_issues().closed_in(current_period.start, current_period.end)))+' '+\
+            'and commented on '+str(len(u.commented_issues().closed_in(current_period.start, current_period.end)))
+
     # Rank from lowest number of closed bugs to highest
-    ranked = sorted(((dev, num_closed(dev)) for dev in developers),
+    ranked = sorted(((dev, score(dev), score_reason(dev)) for dev in developers),
                     key=lambda pair: pair[1])
 
     # FIXME: this needs some work.

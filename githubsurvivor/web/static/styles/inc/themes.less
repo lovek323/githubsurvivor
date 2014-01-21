@@ -100,6 +100,51 @@ html.jira {
   .leaderboard li:before { line-height: 48px; }
 }
 
+html.bc {
+
+  @primary-colour: #EB3B16;
+  @text-colour-1: #FDB22B;
+  @text-colour-2: #5E1A0F;
+  @text-colour-3: #8CA4C0;
+  @panel-lowlight: #CB0C00;
+
+  @image-directory: 'github';
+  @body-text-colour: @primary-colour;
+  @panel-colour: @primary-colour;
+  @panel-highlight-1-colour: #F60D1E;
+  @panel-highlight-2-colour: #FF8000;
+  @panel-highlight-3-colour: #FFB400;
+  @panel-lowlight-colour: @panel-lowlight;
+  @company-colour: @text-colour-1;
+  @date-colour: @text-colour-2;
+  @chart-label-colour: @text-colour-3;
+  @bugs-opened-column-colour: @primary-colour;
+  @bugs-closed-column-colour: #153B5F;
+  @open-bugs-line-colour: @primary-colour;
+  @open-bugs-area-colour: #5F1A0A;
+  @open-bugs-delta-good-colour: @text-colour-2;
+  @open-bugs-delta-bad-colour: @text-colour-2;
+  @start-text-colour: @text-colour-1;
+
+  .basic-theme (@image-directory,
+                @body-text-colour,
+                @panel-colour,
+                @panel-highlight-1-colour,
+                @panel-highlight-2-colour,
+                @panel-highlight-3-colour,
+                @panel-lowlight-colour,
+                @company-colour,
+                @date-colour,
+                @chart-label-colour,
+                @bugs-opened-column-colour,
+                @bugs-closed-column-colour,
+                @open-bugs-line-colour,
+                @open-bugs-area-colour,
+                @open-bugs-delta-good-colour,
+                @open-bugs-delta-bad-colour,
+                @start-text-colour);
+}
+
 .basic-theme (@image-directory,
               @body-text-colour,
               @panel-colour,

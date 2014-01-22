@@ -1,0 +1,489 @@
+@import 'lib/bootstrap.css';
+@import 'lib/bootstrap-responsive.css';
+@import 'core.css';
+html.github body {
+  color: #eb3b16;
+}
+html.github .panel {
+  background-color: #eb3b16;
+  border-bottom-color: #cb0c00;
+  border-right-color: #cb0c00;
+  box-shadow: 0 0 1.25em #cb0c00;
+}
+html.github #banner .info .company {
+  color: #fdb22b;
+}
+html.github #banner .info .date {
+  color: #5e1a0f;
+}
+html.github .leaderboard h2 {
+  background-image: url('/img/github/banner.png');
+}
+html.github .leaderboard h2 span {
+  background-image: url('/img/github/banner-end.png');
+}
+html.github .leaderboard ol {
+  text-shadow: 0 0 0.75em #cb0c00;
+}
+html.github .leaderboard .avatar,
+html.github .leaderboard li:before {
+  border-color: #eb3b16;
+  box-shadow: 0 0 0.5em #cb0c00;
+}
+html.github .leaderboard li {
+  background-image: url('/img/github/dot.png');
+}
+html.github .chart-container {
+  box-shadow: inset 0 0 0.5em #cb0c00;
+}
+html.github .chart-container label {
+  color: #8ca4c0;
+  text-shadow: 0 0 0.5em #517095;
+}
+html.github .chart .column-0 {
+  fill: #eb3b16;
+}
+html.github .chart .column-1 {
+  fill: #153b5f;
+}
+html.github .chart .line-chart {
+  stroke: #eb3b16;
+  fill: #5f1a0a;
+}
+html.github #current-stats .delta.pos {
+  background-image: url('/img/github/arrow-up.png');
+  color: #5e1a0f;
+}
+html.github #current-stats .delta.neg {
+  background-image: url('/img/github/arrow-down.png');
+  color: #5e1a0f;
+}
+html.github #footer {
+  text-shadow: 0 0 1em #cb0c00;
+}
+html.github #footer .start {
+  color: #fdb22b;
+  text-shadow: 0 0 1em #e99602;
+}
+html.github .stripe-1 {
+  background-color: #f60d1e;
+}
+html.github .stripe-2 {
+  background-color: #ff8000;
+}
+html.github .stripe-3 {
+  background-color: #ffb400;
+}
+html.jira body {
+  color: #1cad7e;
+}
+html.jira .panel {
+  background-color: #1cad7e;
+  border-bottom-color: #0b4532;
+  border-right-color: #0b4532;
+  box-shadow: 0 0 1.25em #0b4532;
+}
+html.jira #banner .info .company {
+  color: #c3ea94;
+}
+html.jira #banner .info .date {
+  color: #0b4532;
+}
+html.jira .leaderboard h2 {
+  background-image: url('/img/jira/banner.png');
+}
+html.jira .leaderboard h2 span {
+  background-image: url('/img/jira/banner-end.png');
+}
+html.jira .leaderboard ol {
+  text-shadow: 0 0 0.75em #0b4532;
+}
+html.jira .leaderboard .avatar,
+html.jira .leaderboard li:before {
+  border-color: #1cad7e;
+  box-shadow: 0 0 0.5em #0b4532;
+}
+html.jira .leaderboard li {
+  background-image: url('/img/jira/dot.png');
+}
+html.jira .chart-container {
+  box-shadow: inset 0 0 0.5em #0b4532;
+}
+html.jira .chart-container label {
+  color: #ea5e47;
+  text-shadow: 0 0 0.5em #b62c15;
+}
+html.jira .chart .column-0 {
+  fill: #1cad7e;
+}
+html.jira .chart .column-1 {
+  fill: #0b4532;
+}
+html.jira .chart .line-chart {
+  stroke: #9ec6a3;
+  fill: #00815a;
+}
+html.jira #current-stats .delta.pos {
+  background-image: url('/img/jira/arrow-up.png');
+  color: #5f1a0a;
+}
+html.jira #current-stats .delta.neg {
+  background-image: url('/img/jira/arrow-down.png');
+  color: #0b4532;
+}
+html.jira #footer {
+  text-shadow: 0 0 1em #0b4532;
+}
+html.jira #footer .start {
+  color: #ea5e47;
+  text-shadow: 0 0 1em #db3419;
+}
+html.jira .stripe-1 {
+  background-color: #00815a;
+}
+html.jira .stripe-2 {
+  background-color: #9ec6a3;
+}
+html.jira .stripe-3 {
+  background-color: #c3ea94;
+}
+html.jira .leaderboard li:before {
+  line-height: 48px;
+}
+html.bc body {
+  color: #eb3b16;
+}
+html.bc .panel {
+  background-color: #eb3b16;
+  border-bottom-color: #cb0c00;
+  border-right-color: #cb0c00;
+  box-shadow: 0 0 1.25em #cb0c00;
+}
+html.bc #banner .info .company {
+  color: #fdb22b;
+}
+html.bc #banner .info .date {
+  color: #5e1a0f;
+}
+html.bc .leaderboard h2 {
+  background-image: url('/img/github/banner.png');
+}
+html.bc .leaderboard h2 span {
+  background-image: url('/img/github/banner-end.png');
+}
+html.bc .leaderboard ol {
+  text-shadow: 0 0 0.75em #cb0c00;
+}
+html.bc .leaderboard .avatar,
+html.bc .leaderboard li:before {
+  border-color: #eb3b16;
+  box-shadow: 0 0 0.5em #cb0c00;
+}
+html.bc .leaderboard li {
+  background-image: url('/img/github/dot.png');
+}
+html.bc .chart-container {
+  box-shadow: inset 0 0 0.5em #cb0c00;
+}
+html.bc .chart-container label {
+  color: #8ca4c0;
+  text-shadow: 0 0 0.5em #517095;
+}
+html.bc .chart .column-0 {
+  fill: #eb3b16;
+}
+html.bc .chart .column-1 {
+  fill: #153b5f;
+}
+html.bc .chart .line-chart {
+  stroke: #eb3b16;
+  fill: #5f1a0a;
+}
+html.bc #current-stats .delta.pos {
+  background-image: url('/img/github/arrow-up.png');
+  color: #5e1a0f;
+}
+html.bc #current-stats .delta.neg {
+  background-image: url('/img/github/arrow-down.png');
+  color: #5e1a0f;
+}
+html.bc #footer {
+  text-shadow: 0 0 1em #cb0c00;
+}
+html.bc #footer .start {
+  color: #fdb22b;
+  text-shadow: 0 0 1em #e99602;
+}
+html.bc .stripe-1 {
+  background-color: #f60d1e;
+}
+html.bc .stripe-2 {
+  background-color: #ff8000;
+}
+html.bc .stripe-3 {
+  background-color: #ffb400;
+}
+body {
+  background-color: black;
+  padding-top: 20px;
+}
+#horizontal-wrapper {
+  margin: auto;
+  max-width: 1920px;
+}
+#banner {
+  margin-bottom: 32px;
+}
+.panel {
+  border-bottom-width: 6px;
+  border-bottom-style: solid;
+  border-right-width: 6px;
+  border-right-style: solid;
+}
+/* Banner */
+#banner {
+  position: relative;
+}
+#banner:after {
+  content: '.';
+  display: block;
+  clear: left;
+  visibility: hidden;
+  height: 0;
+}
+#banner .logo {
+  float: left;
+  margin: 14px 0 10px 26px;
+}
+#banner .info {
+  position: absolute;
+  right: 10px;
+  bottom: 20px;
+  font-size: 500%;
+  line-height: 0.375;
+  font-family: MICRO;
+  text-align: right;
+}
+#banner .info .company,
+#banner .info .date {
+  display: block;
+}
+/* Leaderboards */
+.leaderboard {
+  font-size: 175%;
+}
+.leaderboard h2 {
+  display: inline-block;
+  background-position: left top;
+  background-repeat: repeat-x;
+  color: black;
+  text-transform: uppercase;
+  font-weight: normal;
+  margin: 0 0 10px;
+  line-height: 54px;
+  text-shadow: 0 0 0.5em rgba(255, 255, 255, 0.5);
+}
+.leaderboard h2 span {
+  display: block;
+  padding: 0 50px 0 25px;
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+.leaderboard ol {
+  margin: 0 80px 0 0;
+  padding: 0 0 0 141px;
+  list-style: none;
+  counter-reset: rank;
+}
+.leaderboard .avatar,
+.leaderboard li:before {
+  position: absolute;
+  top: 0;
+  border-width: 4px;
+  border-style: solid;
+  line-height: 52px;
+}
+.leaderboard li {
+  position: relative;
+  background-position: 0 33px;
+  background-repeat: repeat-x;
+  line-height: 60px;
+  margin: 12px 0;
+  padding: 0;
+}
+.leaderboard li:after {
+  content: '.';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  height: 0;
+}
+.leaderboard li:before {
+  content: counter(rank);
+  counter-increment: rank;
+  left: -141px;
+  text-align: center;
+  width: 52px;
+}
+.leaderboard .avatar {
+  left: -85px;
+}
+.leaderboard .name,
+.leaderboard .count {
+  background-color: black;
+}
+.leaderboard .name {
+  display: inline-block;
+  padding-right: 0.5em;
+}
+.leaderboard .count {
+  float: right;
+  min-width: 2em;
+  padding-left: 0.5em;
+  text-align: right;
+}
+/* Charts */
+#charts {
+  height: 350px;
+  margin: 12px 0 14px 0;
+}
+#charts .span4 {
+  width: 30%;
+}
+.chart-container {
+  background: #000;
+}
+.chart-container .chart {
+  height: 236px;
+}
+.chart-container label {
+  font-size: 18px;
+  text-transform: uppercase;
+  display: block;
+  padding: 10px;
+  margin-top: 6px;
+}
+.chart-container .chart > * {
+  display: block;
+}
+/* Current stats */
+#current-stats {
+  color: black;
+  text-align: center;
+  text-transform: uppercase;
+  padding-left: 60px;
+  line-height: 1;
+}
+#current-stats .title {
+  margin-top: 10px;
+  font-size: 30px;
+}
+#current-stats .open-bug-count {
+  margin-top: 15px;
+  font-size: 164px;
+}
+#current-stats .delta {
+  display: inline-block;
+  margin: 0;
+  padding-left: 110px;
+  font-size: 70px;
+  background-position: left 50;
+  background-repeat: no-repeat;
+}
+/* Footer */
+.pulse 0% {
+  opacity: 1;
+}
+.pulse 45% {
+  opacity: 1;
+}
+.pulse 50% {
+  opacity: 0;
+}
+.pulse 95% {
+  opacity: 0;
+}
+.pulse 100% {
+  opacity: 1;
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#footer {
+  clear: both;
+  font-size: 115%;
+  text-align: justify;
+  text-transform: uppercase;
+}
+#footer .start {
+  float: right;
+  animation-name: pulse;
+  -moz-animation-name: pulse;
+  -webkit-animation-name: pulse;
+  animation-duration: 1.75s;
+  -moz-animation-duration: 1.75s;
+  -webkit-animation-duration: 1.75s;
+  animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+}
+/* Miscellaneous */
+.stripe {
+  width: 100%;
+  min-height: 6px;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+}
+.ranking {
+  margin-bottom: 20px;
+}

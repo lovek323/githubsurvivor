@@ -40,27 +40,33 @@ def create_user(gh_user, verbose):
 
 def create_issue_from_pull(gh_pull, jira_id, number, verbose):
     "Create an Issue from a `github.Pull`."
+
     try:
         return Issue.objects.get(key=jira_id)
     except Issue.DoesNotExist:
         commenters = [ ]
         for commenter in gh_pull['commenters']:
-            commenters.append(create_user(commenter))
+            commenters.append(create_user(commenter, verbose))
 
         reviewers = [ ]
         for reviewer in gh_pull['reviewers']:
-            reviewers.append(create_user(reviewer))
+            reviewers.append(create_user(reviewer, verbose))
 
-        issue = Issue(key=jira_id,
+        testers = [ ]
+        for tester in gh_pull['testers']:
+            testers.append(create_user(tester, verbose))
+
+        issue = Issue(key        = jira_id,
                       title      = jira_id,
                       state      = gh_pull['state'],
                       opened     = gh_pull['created_at'],
                       closed     = gh_pull['merged_at'],
                       url        = gh_pull['html_url'],
-                      assignee   = create_user(gh_pull['user']),
-                      merger     = create_user(gh_pull['merged_by']),
+                      assignee   = create_user(gh_pull['user'], verbose),
+                      merger     = create_user(gh_pull['merged_by'], verbose),
                       commenters = commenters,
-                      reviewers  = reviewers)
+                      reviewers  = reviewers,
+                      testers    = testers)
         if verbose: print 'created issue: %s (%s)' % (jira_id, number)
         return issue.save()
 
@@ -88,7 +94,7 @@ class Importer(object):
         github_account                        = github.get_user(github_account_name)
         self.github_repo                      = github_account.get_repo(github_repo_name)
         github_organisation                   = github.get_organization(config.GITHUB_ORGANISATION)
-        self.github_team                      = github_organisation.get_team(config.GITHUB_TEAM_ID)
+        self.github_team                      = github_organisation.get_team(int(config.GITHUB_TEAM_ID))
 
         jira_username     = config.JIRA_USERNAME
         jira_password     = config.JIRA_PASSWORD
@@ -135,27 +141,47 @@ class Importer(object):
                 # your own PRs
                 commenter_logins = [ ]
                 commenters       = [ ]
+                reviewer_logins  = [ ]
                 reviewers        = [ ]
                 review_regex     = re.compile(':\+1:')
+                tester_logins    = [ ]
+                testers          = [ ]
+                tester_regex     = re.compile(':green_heart:')
 
                 for comment in comments:
                     if comment.user.login == pull.user.login:
                         continue
 
-                    commenter_logins.append(comment.user.login)
-                    commenters.append({
-                        'login'       : comment.user.login,
-                        'name'        : comment.user.name,
-                        'gravatar_id' : comment.user.gravatar_id
-                        })
-                    review_match = review_regex.search(comment.body)
-
-                    if review_match:
-                        reviewers.append({
+                    # TODO: Don't add to commenters for review and test comments
+                    if comment.user.login not in commenter_logins:
+                        commenter_logins.append(comment.user.login)
+                        commenters.append({
                             'login'       : comment.user.login,
                             'name'        : comment.user.name,
                             'gravatar_id' : comment.user.gravatar_id
                             })
+
+                    if comment.user.login not in reviewer_logins:
+                        review_match = review_regex.search(comment.body)
+
+                        if review_match:
+                            reviewer_logins.append(comment.user.login)
+                            reviewers.append({
+                                'login'       : comment.user.login,
+                                'name'        : comment.user.name,
+                                'gravatar_id' : comment.user.gravatar_id
+                                })
+
+                    if comment.user.login not in tester_logins:
+                        tester_match = tester_regex.search(comment.body)
+
+                        if tester_match:
+                            tester_logins.append(comment.user.login)
+                            testers.append({
+                                'login'       : comment.user.login,
+                                'name'        : comment.user.name,
+                                'gravatar_id' : comment.user.gravatar_id
+                                })
 
                 merged_by_cacheable_user = None
 
@@ -179,6 +205,7 @@ class Importer(object):
                         'merged_by'  : merged_by_cacheable_user,
                         'commenters' : commenters,
                         'reviewers'  : reviewers,
+                        'testers'    : testers,
 
                         'user': {
                             'login'       : pull.user.login,

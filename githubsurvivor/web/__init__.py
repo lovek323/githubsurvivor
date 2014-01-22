@@ -41,10 +41,13 @@ def dashboard():
 
     reporting_unit = request_arg('reporting_unit', default=config.REPORTING_WINDOW)
     previous_periods = int(request_arg('previous_periods', default=12))
-
     reporting_periods = [reporting_period(reporting_unit, today, -i)
                          for i in reversed(xrange(previous_periods))]
     current_period = reporting_periods[-1]
+
+    reporting_periods_month = [reporting_period('month', today, -i)
+                         for i in reversed(xrange(previous_periods))]
+    current_period_month = reporting_periods_month[-1]
 
     developers = User.objects.developers()
     # Randomise order of developers with equal bug counts
@@ -61,8 +64,22 @@ def dashboard():
             'reviewed '+str(len(u.reviewed_issues().closed_in(current_period.start, current_period.end)))+' '+\
             'and commented on '+str(len(u.commented_issues().closed_in(current_period.start, current_period.end)))
 
+    score_month = lambda u: \
+            len(u.closed_issues().closed_in(current_period_month.start, current_period_month.end)) * 10 + \
+            len(u.merged_issues().closed_in(current_period_month.start, current_period_month.end)) * 5 + \
+            len(u.reviewed_issues().closed_in(current_period_month.start, current_period_month.end)) * 5 + \
+            len(u.commented_issues().closed_in(current_period_month.start, current_period_month.end))
+    score_reason_month = lambda u: \
+            'had '+str(len(u.closed_issues().closed_in(current_period_month.start, current_period_month.end)))+' merged, '+\
+            'merged '+str(len(u.merged_issues().closed_in(current_period_month.start, current_period_month.end)))+', '+\
+            'reviewed '+str(len(u.reviewed_issues().closed_in(current_period_month.start, current_period_month.end)))+' '+\
+            'and commented on '+str(len(u.commented_issues().closed_in(current_period_month.start, current_period_month.end)))
+
     # Rank from lowest number of closed bugs to highest
     ranked = sorted(((dev, score(dev), score_reason(dev)) for dev in developers),
+                    key=lambda pair: pair[1])
+
+    ranked_month = sorted(((dev, score_month(dev), score_reason_month(dev)) for dev in developers),
                     key=lambda pair: pair[1])
 
     # FIXME: this needs some work.
@@ -90,6 +107,7 @@ def dashboard():
                            today=today,
                            period_label=reporting_unit,
                            ranked=ranked,
+                           ranked_month=ranked_month,
                            opened_closed_bugs=opened_closed_bugs,
                            open_bugs=open_bugs,
                            open_bug_count=open_bugs[-1]['count'],
@@ -132,16 +150,11 @@ def start_server():
     here = dirname(__file__)
     app.jinja_loader = FileSystemLoader(join(here, 'templates'))
     app.static_folder = join(here, 'static')
-
     app.debug = config.FLASK_DEBUG
     app.run(**config.FLASK_SETTINGS)
 
 def main(arguments=None):
-    parser = ArgumentParser(description='Starts GitHub Survivor web application')
-    parser.add_argument('-c', '--config', help='path to configuration file')
-    args = parser.parse_args(arguments)
-
-    init(args.config)
+    init()
     start_server()
 
 if __name__ == '__main__':

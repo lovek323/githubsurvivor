@@ -43,4 +43,5 @@ class Issue(Document):
     assignee = ReferenceField(User, dbref=False)
     commenters = ListField(ReferenceField(User, dbref=False))
     reviewers = ListField(ReferenceField(User, dbref=False))
+    testers = ListField(ReferenceField(User, dbref=False))
     merger = ReferenceField(User, dbref=False)

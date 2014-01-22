@@ -24,14 +24,13 @@ def sync(types, verbose=False):
 
 def main():
     argparser = argparse.ArgumentParser(description='Synchronises local DB with GitHub')
-    argparser.add_argument('-c', '--config', help='path to configuration file')
     argparser.add_argument('-v', '--verbose', dest='verbose', action='store_true', help='verbose output')
     argparser.add_argument('types', nargs='*', help='model types to sync')
 
     args = argparser.parse_args()
     types = args.types or ('users', 'issues')
 
-    init(args.config)
+    init()
     sync(types, args.verbose)
 
 if __name__ == '__main__':

@@ -38,24 +38,40 @@ def create_user(gh_user, verbose):
         if verbose and user: print 'created user: %s' % user.login
         return user.save()
 
-def create_issue_from_pull(gh_pull, jira_id, number, verbose):
+def create_update_issue_from_pull(gh_pull, jira_id, number, verbose):
     "Create an Issue from a `github.Pull`."
 
+    commenters = [ ]
+    for commenter in gh_pull['commenters']:
+        commenters.append(create_user(commenter, verbose))
+
+    reviewers = [ ]
+    for reviewer in gh_pull['reviewers']:
+        reviewers.append(create_user(reviewer, verbose))
+
+    testers = [ ]
+    for tester in gh_pull['testers']:
+        testers.append(create_user(tester, verbose))
+
     try:
-        return Issue.objects.get(key=jira_id)
+        issue = Issue.objects.get(key=jira_id)
+
+        if issue.state != gh_pull['state']:
+            if verbose: print 'updating issue state to %s: JIRA %s, PR %s' % (gh_pull['state'], jira_id, number)
+
+        issue.state      = gh_pull['state']
+        issue.opened     = gh_pull['created_at']
+        issue.closed     = gh_pull['merged_at']
+        issue.url        = gh_pull['html_url']
+        issue.assignee   = create_user(gh_pull['user'], verbose)
+        issue.merger     = create_user(gh_pull['merged_by'], verbose)
+        issue.commenters = commenters
+        issue.reviewers  = reviewers
+        issue.testers    = testers
+        issue.save()
+
+        return issue
     except Issue.DoesNotExist:
-        commenters = [ ]
-        for commenter in gh_pull['commenters']:
-            commenters.append(create_user(commenter, verbose))
-
-        reviewers = [ ]
-        for reviewer in gh_pull['reviewers']:
-            reviewers.append(create_user(reviewer, verbose))
-
-        testers = [ ]
-        for tester in gh_pull['testers']:
-            testers.append(create_user(tester, verbose))
-
         issue = Issue(key        = jira_id,
                       title      = jira_id,
                       state      = gh_pull['state'],
@@ -67,7 +83,7 @@ def create_issue_from_pull(gh_pull, jira_id, number, verbose):
                       commenters = commenters,
                       reviewers  = reviewers,
                       testers    = testers)
-        if verbose: print 'created issue: %s (%s)' % (jira_id, number)
+        if verbose: print 'created issue: JIRA %s, PR %s' % (jira_id, number)
         return issue.save()
 
 def create_issue_from_jira(jira_issue, verbose):
@@ -106,6 +122,7 @@ class Importer(object):
                 options    = {'server': jira_server})
 
     def import_users(self, verbose=False):
+        return
         for gh_user in self._fetch_users():
             cache_file = 'tmp/github/users/'+gh_user.login+'.json'
             if os.path.exists(cache_file):
@@ -219,7 +236,7 @@ class Importer(object):
                     github_file.write(jsonpickle.encode(cacheable_pull))
 
             regex = re.compile('((?:[A-Za-z]{1,})-(?:[0-9]{1,}))')
-            match = regex.match(pull.title)
+            match = regex.search(pull.title)
 
             if cacheable_pull['merged'] and match:
                 jira_id = match.group(1)
@@ -253,7 +270,7 @@ class Importer(object):
                         or 'support-quickwin' in cacheable_jira['labels']
                         or 'eng-quickwin' in cacheable_jira['labels']
                         or 'product-quickwin' in cacheable_jira['labels']):
-                    issue = create_issue_from_pull(cacheable_pull, jira_id, pull.number, verbose)
+                    issue = create_update_issue_from_pull(cacheable_pull, jira_id, pull.number, verbose)
 
         # use JIRA to determine open issues
         for issue in self._fetch_jira_issues():
@@ -264,7 +281,7 @@ class Importer(object):
         return members
 
     def _fetch_pulls(self):
-        pulls = self.github_repo.get_pulls("closed")[:config.GITHUB_PULL_COUNT]
+        pulls = self.github_repo.get_pulls("closed")[:int(config.GITHUB_PULL_COUNT)]
         return pulls
 
     def _fetch_jira_issues(self):

@@ -32,7 +32,7 @@ class Config(object):
     GITHUB_TEAM_ID = None
     GITHUB_OAUTH_TOKEN = None
     GITHUB_IGNORE_LOGINS = [ ]
-    GITHUB_PULL_COUNT = None
+    GITHUB_PULL_COUNT = 100
     JIRA_SERVER = None
     JIRA_USERNAME = None
     JIRA_PASSWORD = None

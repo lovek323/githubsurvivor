@@ -122,6 +122,7 @@ class Importer(object):
                 options    = {'server': jira_server})
 
     def import_users(self, verbose=False):
+        # not really needed
         return
         for gh_user in self._fetch_users():
             cache_file = 'tmp/github/users/'+gh_user.login+'.json'

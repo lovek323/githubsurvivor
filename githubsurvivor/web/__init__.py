@@ -55,7 +55,7 @@ def dashboard():
     shuffle(developers)
     score = lambda u: \
             len(u.closed_issues().closed_in(current_period.start, current_period.end)) * 10 + \
-            len(u.merged_issues().closed_in(current_period.start, current_period.end)) * 5 + \
+            len(u.merged_issues().closed_in(current_period.start, current_period.end)) * 1 + \
             len(u.reviewed_issues().closed_in(current_period.start, current_period.end)) * 5 + \
             len(u.commented_issues().closed_in(current_period.start, current_period.end))
     score_reason = lambda u: \
@@ -66,7 +66,7 @@ def dashboard():
 
     score_month = lambda u: \
             len(u.closed_issues().closed_in(current_period_month.start, current_period_month.end)) * 10 + \
-            len(u.merged_issues().closed_in(current_period_month.start, current_period_month.end)) * 5 + \
+            len(u.merged_issues().closed_in(current_period_month.start, current_period_month.end)) * 1 + \
             len(u.reviewed_issues().closed_in(current_period_month.start, current_period_month.end)) * 5 + \
             len(u.commented_issues().closed_in(current_period_month.start, current_period_month.end))
     score_reason_month = lambda u: \

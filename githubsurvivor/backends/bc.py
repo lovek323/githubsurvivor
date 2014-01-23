@@ -19,6 +19,7 @@ import itertools
 import jsonpickle
 import os
 import re
+import redis
 
 MAX_ISSUE_RESULTS = 999
 
@@ -102,7 +103,6 @@ def create_issue_from_jira(jira_issue, verbose):
         return issue.save()
 
 class Importer(object):
-
     def __init__(self):
         github_auth_token                     = config.GITHUB_OAUTH_TOKEN
         github_account_name, github_repo_name = config.GITHUB_REPO.split('/')
@@ -125,7 +125,6 @@ class Importer(object):
         # not really needed
         return
         for gh_user in self._fetch_users():
-            cache_file = 'tmp/github/users/'+gh_user.login+'.json'
             if os.path.exists(cache_file):
                 with open(cache_file, 'r') as user_file:
                     user_data = jsonpickle.decode(user_file.read())
@@ -142,17 +141,21 @@ class Importer(object):
             user = create_user(user_data, verbose)
 
     def import_issues(self, verbose=False):
+        redis_conn = redis.from_url(config.REDISTOGO_URL)
+
         # use GitHub to determine closed issues
         pulls = self._fetch_pulls()
 
         for pull in pulls:
-            github_filename = 'tmp/github/pulls/'+str(pull.number)+'.json'
+            cacheable_pull = redis_conn.get('github-pull-'+str(pull.number))
 
-            if os.path.exists(github_filename):
-                # retrieve from filesystem
-                with open(github_filename, 'r') as github_file:
-                    cacheable_pull = jsonpickle.decode(github_file.read())
-            else:
+            if cacheable_pull:
+                try:
+                    cacheable_pull = jsonpickle.decode(cacheable_pull)
+                except ValueError:
+                    cacheable_pull = None
+
+            if not cacheable_pull:
                 if verbose: print 'loading github pull request %s' % pull.number
                 comments = itertools.chain(pull.get_review_comments(), pull.get_issue_comments())
                 # you don't get points for commenting, reviewing or merging
@@ -232,20 +235,23 @@ class Importer(object):
                             },
                         }
 
-                # write to filesystem
-                with open(github_filename, 'w') as github_file:
-                    github_file.write(jsonpickle.encode(cacheable_pull))
+                # write to redis
+                redis_conn.set('github-pull-'+str(pull.number), jsonpickle.encode(cacheable_pull))
 
             regex = re.compile('((?:[A-Za-z]{1,})-(?:[0-9]{1,}))')
             match = regex.search(pull.title)
 
             if cacheable_pull['merged'] and match:
                 jira_id = match.group(1)
+                cacheable_jira = redis_conn.get('jira-'+jira_id)
 
-                if os.path.exists('tmp/jira/'+jira_id+'.json'):
-                    with open('tmp/jira/'+jira_id+'.json', 'r') as jira_file:
-                        cacheable_jira = jsonpickle.decode(jira_file.read())
-                else:
+                if cacheable_jira:
+                    try:
+                        cacheable_jira = jsonpickle.decode(cacheable_jira)
+                    except ValueError:
+                        cacheable_jira = None
+
+                if not cacheable_jira:
                     # check if this JIRA is valid
                     try:
                         if verbose: print 'loading jira issue %s' % jira_id
@@ -263,8 +269,8 @@ class Importer(object):
                                 'labels'      : [ ]
                                 }
 
-                    with open('tmp/jira/'+jira_id+'.json', 'w') as jira_file:
-                        jira_file.write(jsonpickle.encode(cacheable_jira))
+                    # write JIRA details to redis cache
+                    redis_conn.set('jira-'+jira_id, jsonpickle.encode(cacheable_jira))
 
                 if cacheable_jira['valid'] and \
                         (cacheable_jira['project_key'] == config.JIRA_PROJECT

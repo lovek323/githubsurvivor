@@ -25,8 +25,6 @@ def init_db(db_url):
         port = int(match.group(4))
         db_name = match.group(5)
 
-    print 'connecting: username = %s, password = %s, host = %s, port = %s, name = %s' % (username, password, host, port, db_name)
-
     conn = mongoengine.connect(db_name,
             host=host,
             port=port,
@@ -38,10 +36,9 @@ def init_db(db_url):
 # Global configuration
 config = Config()
 
-# Database connection
+# Database & redis connections
 db = None
 
 def init():
-    global db
     config.load()
     db = init_db(config.MONGOHQ_URL)

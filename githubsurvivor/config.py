@@ -3,46 +3,48 @@ import os
 class Config(object):
     CONFIG_OPTIONS = [
             'BACKEND',
-            'MONGOHQ_URL',
             'FLASK_DEBUG',
-            'GITHUB_REPO',
-            'GITHUB_ORGANISATION',
-            'GITHUB_TEAM_ID',
-            'GITHUB_OAUTH_TOKEN',
             'GITHUB_IGNORE_LOGINS',
+            'GITHUB_OAUTH_TOKEN',
+            'GITHUB_ORGANISATION',
             'GITHUB_PULL_COUNT',
-            'JIRA_SERVER',
-            'JIRA_USERNAME',
+            'GITHUB_REPO',
+            'GITHUB_TEAM_ID',
+            'JIRA_FILTER_ID',
             'JIRA_PASSWORD',
             'JIRA_PROJECT',
-            'JIRA_FILTER_ID',
+            'JIRA_SERVER',
+            'JIRA_USERNAME',
             'LEADERBOARD_USERS',
-            'REPORTING_WINDOW',
-            'REPORTING_SPRINT_START_WEEKDAY',
+            'MONGOHQ_URL',
+            'REDISTOGO_URL',
             'REPORTING_SPRINT_LENGTH_WEEKS',
+            'REPORTING_SPRINT_START_WEEKDAY',
             'REPORTING_SPRINT_WEEK_OF_YEAR',
+            'REPORTING_WINDOW',
             ]
 
     BACKEND = 'bc'
-    MONGOHQ_URL = 'mongodb://127.0.0.1/githubsurvivor'
     FLASK_DEBUG = True
     FLASK_SETTINGS = None
-    GITHUB_REPO = None
-    GITHUB_ORGANISATION = None
-    GITHUB_TEAM_ID = None
-    GITHUB_OAUTH_TOKEN = None
     GITHUB_IGNORE_LOGINS = [ ]
+    GITHUB_OAUTH_TOKEN = None
+    GITHUB_ORGANISATION = None
     GITHUB_PULL_COUNT = 100
-    JIRA_SERVER = None
-    JIRA_USERNAME = None
+    GITHUB_REPO = None
+    GITHUB_TEAM_ID = None
+    JIRA_FILTER_ID = None
     JIRA_PASSWORD = None
     JIRA_PROJECT = None
-    JIRA_FILTER_ID = None
+    JIRA_SERVER = None
+    JIRA_USERNAME = None
     LEADERBOARD_USERS = [ ]
-    REPORTING_WINDOW = 'week'
-    REPORTING_SPRINT_START_WEEKDAY = None
+    MONGOHQ_URL = 'mongodb://127.0.0.1/githubsurvivor'
+    REDISTOGO_URL = 'redis://localhost:6379'
     REPORTING_SPRINT_LENGTH_WEEKS = None
+    REPORTING_SPRINT_START_WEEKDAY = None
     REPORTING_SPRINT_WEEK_OF_YEAR = None
+    REPORTING_WINDOW = 'week'
 
     def load(self):
         """
